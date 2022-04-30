@@ -8,24 +8,21 @@ namespace Car_Management
 {
     internal class Car
     {
-        private int year { get; set; }
-        private String make { get; set; }
-        private String model { get; set; }
-        private String vin { get; set; }
-        private String lp { get; set; }
-        private int milage { get; set; }
-        public Car(int year, String make, String model)
-        { 
-            this.year = year;
-            this.make = make;
-            this.model = model;
-            vin = "";
-            lp = "";
-            milage = 0;
-        }
-        public Car GetCar()
+        public int Year { get; set; }
+        public String Make { get; set; }
+        public String Model { get; set; }
+        public String VIN { get; set; }
+        public String LP { get; set; }
+
+        private List<MaintenanceRecord> maintenanceRecords = new List<MaintenanceRecord>();
+        public MaintenanceRecord[] MaintenanceRecords 
         {
-            return this;
+            get { return maintenanceRecords.ToArray(); } 
+        }
+
+        public void AddMaintenanceRecord(MaintenanceRecord record)
+        { 
+            maintenanceRecords.Add(record);
         }
     }
 }
