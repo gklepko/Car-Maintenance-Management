@@ -9,6 +9,7 @@ namespace Car_Management
 {
     public class Car
     {
+        public Guid Key { get; } = Guid.NewGuid();
         public int Year { get; set; }
         public String Make { get; set; }
         public String Model { get; set; }

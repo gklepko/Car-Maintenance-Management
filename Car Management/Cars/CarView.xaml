@@ -27,6 +27,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0"
@@ -38,5 +39,10 @@
         <ListBox ItemsSource="{Binding Cars}"
                  ItemTemplate="{StaticResource CarTemplate}"
                  Grid.Row="1" />
+
+        <Button Grid.Row="2"
+                Content="New Car"
+                Width="Auto"
+                Command="{Binding NewCar}"/>
     </Grid>
 </UserControl>

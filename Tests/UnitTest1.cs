@@ -1,4 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Car_Management;
+using CarManagement.Repos;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests
 {
@@ -8,7 +10,10 @@ namespace Tests
         [TestMethod]
         public void TestMethod1()
         {
-            var car = new Car();
+            var Volvo = new Car("Volvo", "C30", 2011);
+            var Camry = new Car("Toyota", "Camry", 2008);
+            var Repo = new Repository();
+            Repo.SaveCarsAsync(new[] { Volvo, Camry}).Wait();
         }
     }
 }
