@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Car_Management
 {
-    class Part
+    public class Part
     {
         public string Manufacturer { get; set; }
         public string Model { get; set; }

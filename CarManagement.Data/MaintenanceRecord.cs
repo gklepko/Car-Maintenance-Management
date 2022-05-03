@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Car_Management
 {
-    class MaintenanceRecord
+    public class MaintenanceRecord
     {
         public string Type { get; set; }
         public string Comments { get; set; }
