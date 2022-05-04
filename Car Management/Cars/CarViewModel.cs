@@ -28,7 +28,7 @@ namespace Car_Management.Cars
 
         private async void getCars()
         {
-            var repo = new Repository();
+            var repo = new CarRepository();
             var cars = await repo.GetCarsAsync();
             if (cars != null)
             {

@@ -12,7 +12,7 @@ namespace Tests
         {
             var Volvo = new Car("Volvo", "C30", 2011, "Daniel's Car");
             var Camry = new Car("Toyota", "Camry", 2008, "Gleb's Car");
-            var Repo = new Repository();
+            var Repo = new CarRepository();
             Repo.SaveCarAsync(Volvo).Wait();
             Repo.SaveCarAsync(Camry).Wait();
         }

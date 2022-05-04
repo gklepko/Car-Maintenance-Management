@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CarManagement.Data
 {
-    public interface IRepository
+    public interface ICarRepository
     {
         Task<Car[]> GetCarsAsync();
         Task<bool> SaveCarAsync(Car car);

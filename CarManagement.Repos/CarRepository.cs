@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace CarManagement.Repos
 {
-    public class Repository : IRepository
+    public class CarRepository : ICarRepository
     {
         private readonly string carsFileName = "cars.json";
         private readonly string applicationFolderName = "Car Management";
