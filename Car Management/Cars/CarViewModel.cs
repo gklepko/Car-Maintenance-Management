@@ -32,11 +32,12 @@ namespace Car_Management.Cars
             var cars = await repo.GetCarsAsync();
             if (cars != null)
             {
-                foreach (var car in cars)
+                foreach (var car in cars.OrderBy(x => x.Make))
                 {
                     Cars.Add(car);
                 }
             }
+
         }
     }
 }

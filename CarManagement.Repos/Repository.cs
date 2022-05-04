@@ -14,15 +14,19 @@ namespace CarManagement.Repos
             return await Task.Run(async () =>
             {
                 var fileName = getFileName();
-                using (var stream = File.OpenRead(fileName))
+                if (File.Exists(fileName))
                 {
-                    return await JsonSerializer.DeserializeAsync<Car[]>(stream);
+                    using (var stream = File.OpenRead(fileName))
+                    {
+                        return await JsonSerializer.DeserializeAsync<Car[]>(stream);
+                    }
                 }
+                return null;
             });
 #pragma warning restore CS8603 // Possible null reference return.
         }
 
-        public async Task<bool> SaveCarsAsync(Car[] cars)
+        public async Task<bool> SaveCarAsync(Car car)
         {
             return await Task.Run(async () =>
             {
@@ -33,11 +37,21 @@ namespace CarManagement.Repos
                         Directory.CreateDirectory(getWorkingDirectory());
                     }
 
-                    if (!File.Exists(getFileName()))
+                    List<Car> cars = null;
+                    var fileName = getFileName();
+                    if (File.Exists(fileName))
                     {
-                        File.Create(getFileName());
+                        using (var stream = File.OpenRead(fileName))
+                        { 
+                            cars = await JsonSerializer.DeserializeAsync<List<Car>>(stream);
+                        }
                     }
 
+                    cars?.RemoveAll(c => c.Key == car.Key);
+                    
+                    if (cars == null)
+                        cars = new List<Car>();
+                    cars.Add(car);
                     using (var stream = File.Create(getFileName()))
                     {
                         await JsonSerializer.SerializeAsync(stream, cars);
@@ -52,6 +66,39 @@ namespace CarManagement.Repos
             });
         }
 
+        public async Task<bool> DeleteCarAsync(Car car)
+        {
+            return await Task.Run(async () =>
+            {
+                try 
+                {
+                    List<Car> cars = null;
+                    var fileName = getFileName();
+
+                    using (var stream = File.OpenRead(fileName))
+                    {
+                        cars = await JsonSerializer.DeserializeAsync<List<Car>>(stream);
+                    }
+
+                    if (cars != null)
+                    {
+                        if (cars.RemoveAll(c => c.Key == car.Key) > 0)
+                        {
+                            using (var stream = File.Create(fileName))
+                            { 
+                                await JsonSerializer.SerializeAsync(stream, cars);
+                            }
+                        }
+                    }
+                    return true; 
+                }
+                catch 
+                { 
+                    return false; 
+                }
+            });
+        }
+
         private string getWorkingDirectory()
         {
             return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), applicationFolderName);
@@ -60,5 +107,7 @@ namespace CarManagement.Repos
         {
             return Path.Combine(getWorkingDirectory(), carsFileName);
         }
+
+       
     }
 }

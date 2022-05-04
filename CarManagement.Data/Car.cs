@@ -11,18 +11,21 @@ namespace Car_Management
     {
         public Guid Key { get; } = Guid.NewGuid();
         public int Year { get; set; }
-        public String Make { get; set; }
-        public String Model { get; set; }
-        public String VIN { get; set; }
-        public String LP { get; set; }
+        public string Make { get; set; }
+        public string Model { get; set; }
+        public string VIN { get; set; }
+        public string LP { get; set; }
+        public string Alias { get; set; }
+        public string DisplayName => $"{Make} {Model} {Year} ({Alias})";
 
         private List<MaintenanceRecord> maintenanceRecords = new List<MaintenanceRecord>();
 
-        public Car(string make, string model, int year)
+        public Car(string make, string model, int year, string alias)
         {
             this.Make = make;
             this.Model = model;
             this.Year = year;
+            this.Alias = alias;
         }
         public MaintenanceRecord[] MaintenanceRecords 
         {
@@ -34,6 +37,5 @@ namespace Car_Management
             maintenanceRecords.Add(record);
         }
 
-        
     }
 }

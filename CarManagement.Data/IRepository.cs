@@ -10,6 +10,7 @@ namespace CarManagement.Data
     public interface IRepository
     {
         Task<Car[]> GetCarsAsync();
-        Task<bool> SaveCarsAsync(Car[] cars);
+        Task<bool> SaveCarAsync(Car car);
+        Task<bool> DeleteCarAsync(Car car);
     }
 }

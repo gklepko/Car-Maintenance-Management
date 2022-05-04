@@ -10,10 +10,8 @@
     <UserControl.Resources>
         <DataTemplate x:Key="CarTemplate">
             <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Year}" Margin="0,0,3,0"/>
-                    <TextBlock Text="{Binding Make}" Margin="0,0,3,0"/>
-                    <TextBlock Text="{Binding Model}" />
-                </StackPanel>
+                <TextBlock Text="{Binding DisplayName}"/>
+            </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
     
