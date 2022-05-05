@@ -20,6 +20,10 @@ namespace Car_Management
 
         private List<MaintenanceRecord> maintenanceRecords = new List<MaintenanceRecord>();
 
+        public Car()
+        {
+
+        }
         public Car(string make, string model, int year, string alias)
         {
             this.Make = make;
