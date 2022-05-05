@@ -6,7 +6,7 @@
         xmlns:Cars="clr-namespace:Car_Management.Cars"
         xmlns:local="clr-namespace:Car_Management"
         mc:Ignorable="d"
-        Title="Car Management" Height="450" Width="800">
+        Title="Car Management" Height="450" Width="1000">
     <Window.Resources>
         <DataTemplate DataType="{x:Type Cars:CarViewModel}">
             <Cars:CarView />
