@@ -64,6 +64,10 @@
             </Grid>
         </Grid>
 
+        <Grid Grid.Row="1" Grid.Column="1">
+            <ContentControl Content="{Binding MainContentArea}"/>
+        </Grid>
+
 
     </Grid>
 </UserControl>

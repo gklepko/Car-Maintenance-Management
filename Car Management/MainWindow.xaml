@@ -11,6 +11,9 @@
         <DataTemplate DataType="{x:Type Cars:CarViewModel}">
             <Cars:CarView />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type Cars:NewCarViewModel}">
+            <Cars:NewCarView />
+        </DataTemplate>
     </Window.Resources>
     <Window.DataContext>
         <local:MainWindowViewModel />

@@ -11,7 +11,18 @@ namespace Car_Management.Cars
 {
     public class CarViewModel : BaseViewModel
     {
-        
+        private BaseViewModel mainContentArea;
+        public BaseViewModel MainContentArea { 
+            get
+            { 
+                return mainContentArea;
+            }
+            set
+            { 
+                mainContentArea = value;
+                OnPropertyChanged(nameof(MainContentArea));
+            } 
+        }
 
         public ObservableCollection<Car> Cars { get; set; } = new ObservableCollection<Car>();
 
@@ -52,9 +63,21 @@ namespace Car_Management.Cars
             }
         }
 
-        private void onNewCar()
+        private async void onSaveNewCar(Car car)
         {
-            throw new NotImplementedException();
+            var repo = new CarRepository();
+            if (await repo.SaveCarAsync(car))
+            { 
+                Cars.Add(car);
+                OnPropertyChanged(nameof(Cars));
+            }
+            MainContentArea = null;      
+        }
+
+        private async void onNewCar()
+        {
+            await Task.Yield();
+            MainContentArea = new NewCarViewModel(onSaveNewCar, () => MainContentArea = null );
         }
 
         private async void getCars()
