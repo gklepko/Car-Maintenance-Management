@@ -12,7 +12,7 @@ namespace Car_Management
         public string Comments { get; set; }
         public Decimal Price { get; set; }
         public Part[] Parts { get; set; }
-        public DateTime ServiceDate { get; set; } = DateTime.Now;
+        public DateTime ServiceDate { get; set; } = DateTime.Today;
         public int MilageAtService { get; set; }
     }
 }

@@ -68,6 +68,15 @@
             <ContentControl Content="{Binding MainContentArea}"/>
         </Grid>
 
+        <Grid Grid.Row="1" Grid.Column="2">
+            <StackPanel Orientation="Vertical">
+                <Button Content="New Maintenance Record" Command="{Binding NewRecordCommand}"/>
+                <Button Content="Edit Maintenance Record" Command="{Binding EditRecordCommand}"/>
+                <Button Content="Remove Maintenance Record" Command="{Binding RemoveRecordCommand}"/>
+                <Button Content="Edit Car"/>
+            </StackPanel>
+        </Grid>
+
 
     </Grid>
 </UserControl>
