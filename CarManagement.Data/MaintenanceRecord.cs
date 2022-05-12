@@ -14,5 +14,7 @@ namespace Car_Management
         public Part[] Parts { get; set; }
         public DateTime ServiceDate { get; set; } = DateTime.Now;
         public int MilageAtService { get; set; }
+        public DateTime InspectionDate { get; set; } = DateTime.Now;
+        public DateTime ServiceReminder { get; set; } = DateTime.Now;  // user to notify user of upcoming service
     }
 }

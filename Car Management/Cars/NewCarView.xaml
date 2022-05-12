@@ -6,10 +6,10 @@
              xmlns:local="clr-namespace:Car_Management.Cars"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid ShowGridLines="True">
+    <Grid ShowGridLines="False">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -33,7 +33,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <Label HorizontalAlignment="Left" Content="Make: "/>
+            <Label HorizontalAlignment="Left" Content="*Make: "/>
             <TextBox Grid.Column="1" Text="{Binding NewCar.Make}"/>
         </Grid>
 
@@ -42,7 +42,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <Label HorizontalAlignment="Left" Content="Model: "/>
+            <Label HorizontalAlignment="Left" Content="*Model: "/>
             <TextBox Grid.Column="1" Text="{Binding NewCar.Model}"/>
         </Grid>
 
@@ -51,7 +51,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
-            <Label HorizontalAlignment="Left" Content="Year: "/>
+            <Label HorizontalAlignment="Left" Content="*Year: "/>
             <TextBox Grid.Column="1" Text="{Binding NewCar.Year}"/>
         </Grid>
         
