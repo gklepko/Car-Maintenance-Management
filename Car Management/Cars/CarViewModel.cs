@@ -11,6 +11,14 @@ namespace Car_Management.Cars
 {
     public class CarViewModel : BaseViewModel
     {
+        public CarViewModel()
+        {
+            getCars();
+            NewCar = new RelayCommand(onNewCar);
+            DeleteCarCommand = new RelayCommand(onDelete, () => SelectedCar != null);
+            NewRecordCommand = new RelayCommand(newRecord);
+        }
+
         private BaseViewModel mainContentArea;
         public BaseViewModel MainContentArea { 
             get
@@ -24,17 +32,11 @@ namespace Car_Management.Cars
             } 
         }
 
+        #region Cars
         public ObservableCollection<Car> Cars { get; set; } = new ObservableCollection<Car>();
 
         public RelayCommand NewCar { get; private set; }
         public RelayCommand DeleteCarCommand { get; private set; }
-
-        public CarViewModel()
-        {
-            getCars();
-            NewCar = new RelayCommand(onNewCar);
-            DeleteCarCommand = new RelayCommand(onDelete, () => SelectedCar != null);
-        }
 
         private Car selectedCar;
         public Car SelectedCar 
@@ -50,6 +52,8 @@ namespace Car_Management.Cars
                 DeleteCarCommand.RaiseCanExecuteChanged();
             }
         }
+
+        
         private async void onDelete()
         {
             if (SelectedCar != null)
@@ -77,7 +81,7 @@ namespace Car_Management.Cars
         private async void onNewCar()
         {
             await Task.Yield();
-            MainContentArea = new NewCarViewModel(onSaveNewCar, () => MainContentArea = null );
+            MainContentArea = new NewCarViewModel(onSaveNewCar, () => MainContentArea = null);
         }
 
         private async void getCars()
@@ -93,5 +97,27 @@ namespace Car_Management.Cars
             }
 
         }
+
+        #endregion
+
+
+        #region Maintenance
+
+        public RelayCommand NewRecordCommand { get; private set; }
+        public RelayCommand RemoveRecordCommand { get; private set; }
+        public RelayCommand EditRecordCommand { get; private set; }
+
+        private async void newRecord()
+        {
+            await Task.Yield();
+            MainContentArea = new NewCarMaintenanceViewModel(onSaveNewMaintenanceRecord, () => MainContentArea = null);
+        }
+
+        private void onSaveNewMaintenanceRecord(MaintenanceRecord record)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }
