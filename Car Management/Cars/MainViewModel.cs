@@ -9,14 +9,16 @@ using System.Windows.Input;
 
 namespace Car_Management.Cars
 {
-    public class CarViewModel : BaseViewModel
+    public class MainViewModel : BaseViewModel
     {
-        public CarViewModel()
+        public MainViewModel()
         {
             getCars();
             NewCar = new RelayCommand(onNewCar);
             DeleteCarCommand = new RelayCommand(onDelete, () => SelectedCar != null);
-            NewRecordCommand = new RelayCommand(newRecord);
+            NewRecordCommand = new RelayCommand(newRecord, () => SelectedCar != null);
+            RemoveRecordCommand = new RelayCommand(removeRecord, () => SelectedCar != null);
+            EditRecordCommand = new RelayCommand(editRecord, () => SelectedCar != null);
         }
 
         private BaseViewModel mainContentArea;
@@ -50,6 +52,9 @@ namespace Car_Management.Cars
             {
                 selectedCar = value;
                 DeleteCarCommand.RaiseCanExecuteChanged();
+                NewRecordCommand.RaiseCanExecuteChanged();
+                RemoveRecordCommand.RaiseCanExecuteChanged();
+                EditRecordCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -113,10 +118,23 @@ namespace Car_Management.Cars
             MainContentArea = new NewCarMaintenanceViewModel(onSaveNewMaintenanceRecord, () => MainContentArea = null);
         }
 
+        private async void editRecord()
+        {
+            await Task.Yield();
+            
+        }
+
+        private async void removeRecord()
+        {
+            await Task.Yield();
+            
+        }
+
         private void onSaveNewMaintenanceRecord(MaintenanceRecord record)
         {
             throw new NotImplementedException();
         }
+
 
         #endregion
     }

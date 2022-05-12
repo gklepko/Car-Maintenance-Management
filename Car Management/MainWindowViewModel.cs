@@ -11,7 +11,7 @@ namespace Car_Management
     {
         public MainWindowViewModel()
         {
-            CurrentViewModel = new CarViewModel();
+            CurrentViewModel = new MainViewModel();
         }
         public BaseViewModel CurrentViewModel { get; set; }
     }

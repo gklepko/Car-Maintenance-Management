@@ -8,8 +8,8 @@
         mc:Ignorable="d"
         Title="Car Management" Height="450" Width="1000">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type Cars:CarViewModel}">
-            <Cars:CarView />
+        <DataTemplate DataType="{x:Type Cars:MainViewModel}">
+            <Cars:MainView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type Cars:NewCarViewModel}">
             <Cars:NewCarView />

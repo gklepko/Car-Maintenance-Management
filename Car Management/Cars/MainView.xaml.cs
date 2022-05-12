@@ -18,9 +18,9 @@ namespace Car_Management.Cars
     /// <summary>
     /// Interaction logic for CarView.xaml
     /// </summary>
-    public partial class CarView : UserControl
+    public partial class MainView : UserControl
     {
-        public CarView()
+        public MainView()
         {
             InitializeComponent();
         }
