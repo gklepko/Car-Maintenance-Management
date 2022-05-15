@@ -14,7 +14,7 @@ namespace Car_Management.Cars
         public MainViewModel()
         {
             getCars();
-            NewCar = new RelayCommand(onNewCar);
+            NewCarCommand = new RelayCommand(onNewCar);
             DeleteCarCommand = new RelayCommand(onDelete, () => SelectedCar != null);
             NewRecordCommand = new RelayCommand(newRecord, () => SelectedCar != null);
             RemoveRecordCommand = new RelayCommand(removeRecord, () => SelectedCar != null);
@@ -37,7 +37,7 @@ namespace Car_Management.Cars
         #region Cars
         public ObservableCollection<Car> Cars { get; set; } = new ObservableCollection<Car>();
 
-        public RelayCommand NewCar { get; private set; }
+        public RelayCommand NewCarCommand { get; private set; }
         public RelayCommand DeleteCarCommand { get; private set; }
 
         private Car selectedCar;
@@ -116,6 +116,7 @@ namespace Car_Management.Cars
         {
             await Task.Yield();
             MainContentArea = new NewCarMaintenanceViewModel(onSaveNewMaintenanceRecord, () => MainContentArea = null);
+            
         }
 
         private async void editRecord()
@@ -130,9 +131,15 @@ namespace Car_Management.Cars
             
         }
 
-        private void onSaveNewMaintenanceRecord(MaintenanceRecord record)
+        private async void onSaveNewMaintenanceRecord(MaintenanceRecord record)
         {
-            throw new NotImplementedException();
+            if (SelectedCar != null)
+            { 
+                SelectedCar.AddMaintenanceRecord(record);
+                var repo = new CarRepository();
+                await repo.SaveCarAsync(SelectedCar);
+                MainContentArea = null;
+            }
         }
 
 

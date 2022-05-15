@@ -56,7 +56,7 @@
                 
                     <Button Grid.Column="0"
                         Content="New Car"
-                        Command="{Binding NewCar}"/>
+                        Command="{Binding NewCarCommand}"/>
                 <Button
                     Grid.Column="2"
                     Content="Delete Car"

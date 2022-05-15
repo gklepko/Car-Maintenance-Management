@@ -54,7 +54,9 @@ namespace CarManagement.Repos
                     cars.Add(car);
                     using (var stream = File.Create(getFileName()))
                     {
-                        await JsonSerializer.SerializeAsync(stream, cars);
+                        var options = new JsonSerializerOptions(JsonSerializerDefaults.General);
+                        options.WriteIndented = true;
+                        await JsonSerializer.SerializeAsync(stream, cars, options);
                     }
 
                     return true;
@@ -85,8 +87,10 @@ namespace CarManagement.Repos
                         if (cars.RemoveAll(c => c.Key == car.Key) > 0)
                         {
                             using (var stream = File.Create(fileName))
-                            { 
-                                await JsonSerializer.SerializeAsync(stream, cars);
+                            {
+                                var options = new JsonSerializerOptions(JsonSerializerDefaults.General);
+                                options.WriteIndented = true;
+                                await JsonSerializer.SerializeAsync(stream, cars, options);
                             }
                         }
                     }

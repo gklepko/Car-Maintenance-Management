@@ -13,12 +13,18 @@ namespace Car_Management.Cars
 
         public MaintenanceRecord NewRecord { get; set; }
 
+        public RelayCommand SaveCommand { get; private set; }
+        public RelayCommand CancelCommand { get; private set; }
+
         public NewCarMaintenanceViewModel(Action<MaintenanceRecord> record, Action cancel)
         {
             this.record = record;
             this.cancel = cancel;
 
             NewRecord = new MaintenanceRecord();
+
+            SaveCommand = new RelayCommand(() => record(NewRecord));
+            CancelCommand = new RelayCommand(cancel);
         }
 
 

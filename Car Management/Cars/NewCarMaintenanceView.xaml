@@ -26,8 +26,6 @@
 
         <Label Content="Add a Maintenance Record" FontWeight="Bold" HorizontalAlignment="Center" />
 
-
-
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
