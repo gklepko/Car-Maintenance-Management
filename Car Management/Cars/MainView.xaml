@@ -13,6 +13,13 @@
                 <TextBlock Text="{Binding DisplayName}"/>
             </StackPanel>
         </DataTemplate>
+
+        <DataTemplate x:Key="MaintenanceRecordTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Margin ="0,0,10,0" Text="{Binding Type}"/>
+                <TextBlock Text="{Binding ServiceDate, StringFormat='MM/dd/yyyy'}"/>
+            </StackPanel>
+        </DataTemplate>
     </UserControl.Resources>
 
 
@@ -32,10 +39,6 @@
 
         <Label Grid.Row="0" Grid.Column="0" Content="Vehicles" FontWeight="Bold" HorizontalAlignment="Center"/>
         <Label Grid.Row="0" Grid.Column="1" Content="{Binding SelectedCar.DisplayName}" FontWeight="Bold" HorizontalAlignment="Center"/>
-        <!--MAKE THIS WORK EVENTUALLY-->
-        
-
-
 
         <Grid Grid.Row="1" ShowGridLines="True">
             <Grid.RowDefinitions>
@@ -55,13 +58,23 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 
-                    <Button Grid.Column="0"
-                        Content="New Car"
-                        Command="{Binding NewCarCommand}"/>
-                <Button
-                    Grid.Column="2"
-                    Content="Delete Car"
-                    Command="{Binding DeleteCarCommand}"/>
+                <Button Grid.Column="0" Content="New Car" Command="{Binding NewCarCommand}"/>
+                <Button Grid.Column="2" Content="Delete Car" Command="{Binding DeleteCarCommand}"/>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <local:CarInfoView DataContext="{Binding SelectedCar}"/>
+            </Grid>
+            <Grid Grid.Row="1">
+                <ListBox ItemsSource="{Binding SelectedCarMaintenanceRecords}"
+                         ItemTemplate="{StaticResource MaintenanceRecordTemplate}"
+                         SelectedItem="{Binding SelectedMaintenanceRecord, Mode=TwoWay }"/>
             </Grid>
         </Grid>
 
@@ -75,7 +88,7 @@
                 <Button Content="New Maintenance Record" Command="{Binding NewRecordCommand}"/>
                 <Button Content="Edit Maintenance Record" Command="{Binding EditRecordCommand}"/>
                 <Button Content="Remove Maintenance Record" Command="{Binding RemoveRecordCommand}"/>
-                <Button Content="Edit Car"/>
+                <Button Content="Edit Car" Command="{Binding EditCarCommand}"/>
             </StackPanel>
         </Grid>
 

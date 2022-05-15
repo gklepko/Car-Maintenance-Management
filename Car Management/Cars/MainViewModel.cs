@@ -1,4 +1,5 @@
-﻿using CarManagement.Repos;
+﻿using CarManagement.Data;
+using CarManagement.Repos;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,13 +15,26 @@ namespace Car_Management.Cars
         public MainViewModel()
         {
             getCars();
-            NewCarCommand = new RelayCommand(onNewCar);
-            DeleteCarCommand = new RelayCommand(onDelete, () => SelectedCar != null);
-            NewRecordCommand = new RelayCommand(newRecord, () => SelectedCar != null);
-            RemoveRecordCommand = new RelayCommand(removeRecord, () => SelectedCar != null);
-            EditRecordCommand = new RelayCommand(editRecord, () => SelectedCar != null);
+
+            NewCarCommand = new RelayCommand(onNewCar, () => !isInEditMode);
+            commands.Add(NewCarCommand);
+            DeleteCarCommand = new RelayCommand(onDelete, () => !isInEditMode && SelectedCar != null);
+            commands.Add(DeleteCarCommand);
+            EditCarCommand = new RelayCommand(onEditCar, () => !isInEditMode && SelectedCar != null);
+            commands.Add(EditCarCommand);
+
+            NewRecordCommand = new RelayCommand(newRecord, () => !isInEditMode && SelectedCar != null);
+            commands.Add(NewRecordCommand);
+            RemoveRecordCommand = new RelayCommand(removeRecord, () => !isInEditMode && SelectedCar != null);
+            commands.Add(RemoveRecordCommand);
+            EditRecordCommand = new RelayCommand(editRecord, () => !isInEditMode && SelectedCar != null);
+            commands.Add(EditRecordCommand);
         }
 
+        // this list is for convinience
+        private List<RelayCommand> commands = new List<RelayCommand>();
+
+        #region MainWorking Area
         private BaseViewModel mainWorkingArea;
         public BaseViewModel MainWorkingArea { 
             get
@@ -34,11 +48,29 @@ namespace Car_Management.Cars
             } 
         }
 
+        private Stack<BaseViewModel> mainWorkingAreaTracking = new Stack<BaseViewModel>();
+        private bool isInEditMode = false;
+        private void enterEditMode(BaseViewModel viewModel)
+        {
+            isInEditMode = true;
+            commands.ForEach(c => c.RaiseCanExecuteChanged());
+            mainWorkingAreaTracking.Push(MainWorkingArea);
+            MainWorkingArea = viewModel;
+        }
+        private void exitEditMode()
+        {
+            MainWorkingArea = mainWorkingAreaTracking.Pop();
+            isInEditMode = false;
+            commands.ForEach(c => c.RaiseCanExecuteChanged());
+        }
+        #endregion
+
         #region Cars
         public ObservableCollection<Car> Cars { get; set; } = new ObservableCollection<Car>();
 
         public RelayCommand NewCarCommand { get; private set; }
         public RelayCommand DeleteCarCommand { get; private set; }
+        public RelayCommand EditCarCommand { get; private set; }
 
         private Car selectedCar;
         public Car SelectedCar 
@@ -50,11 +82,13 @@ namespace Car_Management.Cars
 
             set 
             {
-                selectedCar = value;
-                DeleteCarCommand.RaiseCanExecuteChanged();
-                NewRecordCommand.RaiseCanExecuteChanged();
-                RemoveRecordCommand.RaiseCanExecuteChanged();
-                EditRecordCommand.RaiseCanExecuteChanged();
+                if (SelectedCar != value)
+                {
+                    selectedCar = value;
+                    getMaintenanceRecords(SelectedCar);
+                    commands.ForEach(c => c.RaiseCanExecuteChanged());
+                    OnPropertyChanged(nameof(SelectedCar));
+                }
             }
         }
 
@@ -72,21 +106,27 @@ namespace Car_Management.Cars
             }
         }
 
-        private async void onSaveNewCar(Car car)
+        private void onSaveCarInfo(Car car)
         {
-            var repo = new CarRepository();
-            if (await repo.SaveCarAsync(car))
-            { 
+            if (car != null)
+            {
+                if (Cars.Contains(car))
+                    Cars.Remove(car);
+
                 Cars.Add(car);
                 OnPropertyChanged(nameof(Cars));
             }
-            MainWorkingArea = null;      
+            exitEditMode();     
         }
 
-        private async void onNewCar()
+        private void onNewCar()
         {
-            await Task.Yield();
-            MainWorkingArea = new NewCarViewModel(onSaveNewCar, () => MainWorkingArea = null);
+            enterEditMode(new NewCarViewModel(new Car(), onSaveCarInfo));
+        }
+
+        private void onEditCar()
+        {
+            enterEditMode(new NewCarViewModel(SelectedCar, onSaveCarInfo));
         }
 
         private async void getCars()
@@ -100,7 +140,6 @@ namespace Car_Management.Cars
                     Cars.Add(car);
                 }
             }
-
         }
 
         #endregion
@@ -112,36 +151,78 @@ namespace Car_Management.Cars
         public RelayCommand RemoveRecordCommand { get; private set; }
         public RelayCommand EditRecordCommand { get; private set; }
 
-        private async void newRecord()
+        private void newRecord()
         {
-            await Task.Yield();
-            MainWorkingArea = new NewCarMaintenanceViewModel(onSaveNewMaintenanceRecord, () => MainWorkingArea = null);
-            
+            enterEditMode(new NewCarMaintenanceViewModel(new MaintenanceRecord(SelectedCar), onSaveMaintenanceRecord));
         }
 
-        private async void editRecord()
+        private void editRecord()
         {
-            await Task.Yield();
-            
+            if (SelectedMaintenanceRecord != null)
+            {
+                enterEditMode(new NewCarMaintenanceViewModel(SelectedMaintenanceRecord, onSaveMaintenanceRecord));
+            }
         }
 
         private async void removeRecord()
         {
-            await Task.Yield();
-            
-        }
-
-        private async void onSaveNewMaintenanceRecord(MaintenanceRecord record)
-        {
-            if (SelectedCar != null)
-            { 
-                SelectedCar.AddMaintenanceRecord(record);
-                var repo = new CarRepository();
-                await repo.SaveCarAsync(SelectedCar);
-                MainWorkingArea = null;
+            if (SelectedMaintenanceRecord != null)
+            {
+                var repo = new MaintenanceRepository();
+                if (await repo.DeleteRecordAsync(SelectedMaintenanceRecord))
+                {
+                    SelectedCarMaintenanceRecords.Remove(SelectedMaintenanceRecord);
+                    OnPropertyChanged(nameof(SelectedCarMaintenanceRecords));
+                }
             }
         }
 
+        private void onSaveMaintenanceRecord(MaintenanceRecord record)
+        {
+            if (record != null)
+            {
+                if (SelectedCarMaintenanceRecords != null)
+                {
+                    if (SelectedCarMaintenanceRecords.Contains(record))
+                        SelectedCarMaintenanceRecords.Remove(record);
+
+                    SelectedCarMaintenanceRecords.Add(record);
+                    OnPropertyChanged(nameof(SelectedCarMaintenanceRecords));
+                }
+            }
+            exitEditMode();
+        }
+
+        public ObservableCollection<MaintenanceRecord> SelectedCarMaintenanceRecords { get; set; }
+
+        private MaintenanceRecord selectedMaintenanceRecord;
+        public MaintenanceRecord SelectedMaintenanceRecord 
+        {
+            get => selectedMaintenanceRecord;
+            set
+            {
+                if (SelectedMaintenanceRecord != value)
+                {
+                    selectedMaintenanceRecord = value;
+                    OnPropertyChanged(nameof(SelectedMaintenanceRecord));
+                }
+            } 
+        }
+
+        private async void getMaintenanceRecords(Car car)
+        {
+            SelectedCarMaintenanceRecords = new ObservableCollection<MaintenanceRecord>();
+            var repo = new MaintenanceRepository();
+            var records = await repo.GetRecordsAsync(car);
+            if (records != null)
+            {
+                foreach (var record in records.OrderByDescending(x => x.ServiceDate))
+                {
+                    SelectedCarMaintenanceRecords.Add(record);
+                }
+            }
+            OnPropertyChanged(nameof(SelectedCarMaintenanceRecords));
+        }
 
         #endregion
     }

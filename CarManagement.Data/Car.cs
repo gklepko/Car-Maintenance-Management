@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
-namespace Car_Management
+namespace CarManagement.Data
 {
     public class Car
     {
@@ -18,12 +19,13 @@ namespace Car_Management
         public string Alias { get; set; }
         public string DisplayName => $"{Make} {Model} {Year} ({Alias})";
 
+        [JsonIgnore]
         private List<MaintenanceRecord> maintenanceRecords = new List<MaintenanceRecord>();
 
-        public Car()
-        {
+        [JsonIgnore]
+        public MaintenanceRecord[] MaintenanceRecords { get { return maintenanceRecords.ToArray(); } }
 
-        }
+        public Car() { }
         public Car(string make, string model, int year, string alias)
         {
             this.Make = make;
@@ -31,15 +33,14 @@ namespace Car_Management
             this.Year = year;
             this.Alias = alias;
         }
-        public MaintenanceRecord[] MaintenanceRecords 
-        {
-            get { return maintenanceRecords.ToArray(); } 
-        }
-
         public void AddMaintenanceRecord(MaintenanceRecord record)
         { 
             maintenanceRecords.Add(record);
         }
 
+        public void RemoveMaintenanceRecord(MaintenanceRecord record)
+        {
+            maintenanceRecords.Remove(record);
+        }
     }
 }

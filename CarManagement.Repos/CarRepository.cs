@@ -1,5 +1,4 @@
-﻿using Car_Management;
-using CarManagement.Data;
+﻿using CarManagement.Data;
 using System.Text.Json;
 
 namespace CarManagement.Repos
@@ -7,10 +6,9 @@ namespace CarManagement.Repos
     public class CarRepository : ICarRepository
     {
         private readonly string carsFileName = "cars.json";
-        private readonly string applicationFolderName = "Car Management";
+
         public async Task<Car[]> GetCarsAsync()
         {
-#pragma warning disable CS8603 // Possible null reference return.
             return await Task.Run(async () =>
             {
                 var fileName = getFileName();
@@ -23,7 +21,6 @@ namespace CarManagement.Repos
                 }
                 return null;
             });
-#pragma warning restore CS8603 // Possible null reference return.
         }
 
         public async Task<bool> SaveCarAsync(Car car)
@@ -32,9 +29,9 @@ namespace CarManagement.Repos
             {
                 try
                 {
-                    if (!Directory.Exists(getWorkingDirectory()))
+                    if (!Directory.Exists(Helper.GetWorkingDirectory()))
                     { 
-                        Directory.CreateDirectory(getWorkingDirectory());
+                        Directory.CreateDirectory(Helper.GetWorkingDirectory());
                     }
 
                     List<Car> cars = null;
@@ -103,15 +100,10 @@ namespace CarManagement.Repos
             });
         }
 
-        private string getWorkingDirectory()
-        {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), applicationFolderName);
-        }
+
         private string getFileName()
         {
-            return Path.Combine(getWorkingDirectory(), carsFileName);
+            return Path.Combine(Helper.GetWorkingDirectory(), carsFileName);
         }
-
-       
     }
 }

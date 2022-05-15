@@ -1,4 +1,5 @@
-﻿using CarManagement.Repos;
+﻿using CarManagement.Data;
+using CarManagement.Repos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,31 +10,37 @@ namespace Car_Management.Cars
 {
     public class NewCarViewModel : BaseViewModel
     {
-        private readonly Action<Car> onSaveAction;
-        private readonly Action onCancelAction;
+        private readonly Action<Car> onExit;
 
         public Car NewCar { get; set; }
 
         public RelayCommand SaveCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
 
-        public NewCarViewModel(Action<Car> onSaveAction, Action onCancelAction)
+        public NewCarViewModel(Car car, Action<Car> onExit)
         {
-            NewCar = new Car();
-            SaveCommand = new RelayCommand(onSaveCommand);
-            CancelCommand = new RelayCommand(onCancelCommand);
-            this.onSaveAction = onSaveAction;
-            this.onCancelAction = onCancelAction;
+            NewCar = car;
+            SaveCommand = new RelayCommand(onSave);
+            CancelCommand = new RelayCommand(onCancel);
+            this.onExit = onExit;
         }
 
-        private void onSaveCommand()
+        private async void onSave()
         {
-            onSaveAction(NewCar);
+            var repo = new CarRepository();
+            if (await repo.SaveCarAsync(NewCar))
+            {
+                onExit(NewCar);
+            }
+            else
+            {
+                onExit(null);
+            }
         }
 
-        private void onCancelCommand()
+        private void onCancel()
         {
-            onCancelAction();
+            onExit(null);
         }
     }
 }

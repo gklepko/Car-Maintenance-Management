@@ -8,5 +8,8 @@ namespace CarManagement.Data
 {
     public interface IMaintenanceRepository
     {
+        Task<MaintenanceRecord[]> GetRecordsAsync(Car car);
+        Task<bool> SaveRecordAsync(MaintenanceRecord record);
+        Task<bool> DeleteRecordAsync(MaintenanceRecord record);
     }
 }
