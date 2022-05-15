@@ -19,8 +19,9 @@
     <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="5*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -32,7 +33,7 @@
         <Label Grid.Row="0" Grid.Column="0" Content="Vehicles" FontWeight="Bold" HorizontalAlignment="Center"/>
         <Label Grid.Row="0" Grid.Column="1" Content="{Binding SelectedCar.DisplayName}" FontWeight="Bold" HorizontalAlignment="Center"/>
         <!--MAKE THIS WORK EVENTUALLY-->
-        <Label Grid.Row="0" Grid.Column="2" Content="Vehicle Actions" FontWeight="Bold" HorizontalAlignment="Center" />
+        
 
 
 
@@ -64,11 +65,12 @@
             </Grid>
         </Grid>
 
-        <Grid Grid.Row="1" Grid.Column="1">
-            <ContentControl Content="{Binding MainContentArea}"/>
+        <Grid Grid.Row="1" Grid.Column="2">
+            <ContentControl Content="{Binding MainWorkingArea}"/>
         </Grid>
 
-        <Grid Grid.Row="1" Grid.Column="2">
+        <Label Grid.Row="0" Grid.Column="3" Content="Vehicle Actions" FontWeight="Bold" HorizontalAlignment="Center" />
+        <Grid Grid.Row="1" Grid.Column="3">
             <StackPanel Orientation="Vertical">
                 <Button Content="New Maintenance Record" Command="{Binding NewRecordCommand}"/>
                 <Button Content="Edit Maintenance Record" Command="{Binding EditRecordCommand}"/>

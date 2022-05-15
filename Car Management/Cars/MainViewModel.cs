@@ -21,16 +21,16 @@ namespace Car_Management.Cars
             EditRecordCommand = new RelayCommand(editRecord, () => SelectedCar != null);
         }
 
-        private BaseViewModel mainContentArea;
-        public BaseViewModel MainContentArea { 
+        private BaseViewModel mainWorkingArea;
+        public BaseViewModel MainWorkingArea { 
             get
             { 
-                return mainContentArea;
+                return mainWorkingArea;
             }
             set
             { 
-                mainContentArea = value;
-                OnPropertyChanged(nameof(MainContentArea));
+                mainWorkingArea = value;
+                OnPropertyChanged(nameof(MainWorkingArea));
             } 
         }
 
@@ -80,13 +80,13 @@ namespace Car_Management.Cars
                 Cars.Add(car);
                 OnPropertyChanged(nameof(Cars));
             }
-            MainContentArea = null;      
+            MainWorkingArea = null;      
         }
 
         private async void onNewCar()
         {
             await Task.Yield();
-            MainContentArea = new NewCarViewModel(onSaveNewCar, () => MainContentArea = null);
+            MainWorkingArea = new NewCarViewModel(onSaveNewCar, () => MainWorkingArea = null);
         }
 
         private async void getCars()
@@ -115,7 +115,7 @@ namespace Car_Management.Cars
         private async void newRecord()
         {
             await Task.Yield();
-            MainContentArea = new NewCarMaintenanceViewModel(onSaveNewMaintenanceRecord, () => MainContentArea = null);
+            MainWorkingArea = new NewCarMaintenanceViewModel(onSaveNewMaintenanceRecord, () => MainWorkingArea = null);
             
         }
 
@@ -138,7 +138,7 @@ namespace Car_Management.Cars
                 SelectedCar.AddMaintenanceRecord(record);
                 var repo = new CarRepository();
                 await repo.SaveCarAsync(SelectedCar);
-                MainContentArea = null;
+                MainWorkingArea = null;
             }
         }
 
