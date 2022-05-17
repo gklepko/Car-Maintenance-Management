@@ -20,6 +20,14 @@
         <DataTemplate DataType="{x:Type Cars:RecordViewModel}">
             <Cars:RecordView />
         </DataTemplate>
+
+        <Style TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="FontWeight" Value="ExtraBold"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Window.DataContext>
         <local:MainWindowViewModel />

@@ -25,9 +25,9 @@ namespace Car_Management.Cars
 
             NewRecordCommand = new RelayCommand(newRecord, () => !isInEditMode && SelectedCar != null);
             commands.Add(NewRecordCommand);
-            RemoveRecordCommand = new RelayCommand(removeRecord, () => !isInEditMode && SelectedCar != null);
+            RemoveRecordCommand = new RelayCommand(removeRecord, () => !isInEditMode && SelectedMaintenanceRecord != null);
             commands.Add(RemoveRecordCommand);
-            EditRecordCommand = new RelayCommand(editRecord, () => !isInEditMode && SelectedCar != null);
+            EditRecordCommand = new RelayCommand(editRecord, () => !isInEditMode && SelectedMaintenanceRecord != null);
             commands.Add(EditRecordCommand);
         }
 
@@ -209,6 +209,8 @@ namespace Car_Management.Cars
                 {
                     selectedMaintenanceRecord = value;
                     OnPropertyChanged(nameof(SelectedMaintenanceRecord));
+                    EditRecordCommand.RaiseCanExecuteChanged();
+                    RemoveRecordCommand.RaiseCanExecuteChanged();
                     MainWorkingArea = new RecordViewModel(SelectedMaintenanceRecord);
                 }
             } 
