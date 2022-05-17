@@ -50,18 +50,22 @@ namespace Car_Management.Cars
 
         private Stack<BaseViewModel> mainWorkingAreaTracking = new Stack<BaseViewModel>();
         private bool isInEditMode = false;
+
+        public bool NotInEditMode => !isInEditMode;
         private void enterEditMode(BaseViewModel viewModel)
         {
             isInEditMode = true;
             commands.ForEach(c => c.RaiseCanExecuteChanged());
             mainWorkingAreaTracking.Push(MainWorkingArea);
             MainWorkingArea = viewModel;
+            OnPropertyChanged(nameof(NotInEditMode));
         }
         private void exitEditMode()
         {
             MainWorkingArea = mainWorkingAreaTracking.Pop();
             isInEditMode = false;
             commands.ForEach(c => c.RaiseCanExecuteChanged());
+            OnPropertyChanged(nameof(NotInEditMode));
         }
         #endregion
 
