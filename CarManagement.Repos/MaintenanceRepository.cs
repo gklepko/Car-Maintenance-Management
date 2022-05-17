@@ -52,6 +52,11 @@ namespace CarManagement.Repos
 
         public async Task<MaintenanceRecord[]> GetRecordsAsync(Car car)
         {
+            if (car == null)
+            {
+                return null;
+            }
+
             return await Task.Run(async () =>
             {
                 var fileName = getFileName(car);

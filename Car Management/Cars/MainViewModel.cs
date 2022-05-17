@@ -205,6 +205,7 @@ namespace Car_Management.Cars
                 {
                     selectedMaintenanceRecord = value;
                     OnPropertyChanged(nameof(SelectedMaintenanceRecord));
+                    MainWorkingArea = new RecordViewModel(SelectedMaintenanceRecord);
                 }
             } 
         }

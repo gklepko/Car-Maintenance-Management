@@ -14,8 +14,8 @@ namespace CarManagement.Data
         public int Year { get; set; } = DateTime.Now.Year;
         public string Make { get; set; }
         public string Model { get; set; }
-        public string VIN { get; set; }
-        public string LP { get; set; }
+        public string VIN { get; set; } = "N/A";
+        public string LP { get; set; } = "N/A";
         public string Alias { get; set; }
         public string DisplayName => $"{Make} {Model} {Year} ({Alias})";
 

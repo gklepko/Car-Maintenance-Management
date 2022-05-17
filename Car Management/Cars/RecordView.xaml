@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Car_Management.Cars.CarInfoView"
+﻿<UserControl x:Class="Car_Management.Cars.RecordView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -19,19 +19,22 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Column="0" Grid.Row="0" Content="Make: "/>
-        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Make}"/>
+        <Label Grid.Column="0" Grid.Row="0" Content="Service Date: "/>
+        <Label Grid.Column="1" Grid.Row="0" Content="{Binding Record.ServiceDate, StringFormat='MM/dd/yyyy'}"/>
 
-        <Label Grid.Column="0" Grid.Row="1" Content="Model: "/>
-        <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Model}"/>
+        <Label Grid.Column="0" Grid.Row="1" Content="Service Type: "/>
+        <Label Grid.Column="1" Grid.Row="1" Content="{Binding Record.Type}"/>
 
-        <Label Grid.Column="0" Grid.Row="2" Content="Year: "/>
-        <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Year}"/>
+        <Label Grid.Column="0" Grid.Row="2" Content="Service Cost: "/>
+        <Label Grid.Column="1" Grid.Row="2" Content="{Binding Record.Price}"/>
 
-        <Label Grid.Column="0" Grid.Row="3" Content="License Plate: "/>
-        <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding LP}"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="Milage at Service: "/>
+        <Label Grid.Column="1" Grid.Row="3" Content="{Binding Record.MilageAtService}"/>
 
-        <Label Grid.Column="0" Grid.Row="4" Content="VIN: "/>
-        <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding VIN}"/>
+        <Label Grid.Column="0" Grid.Row="4" Content="Comments: "/>
+        <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding Record.Comments}" TextWrapping="Wrap"/>
+
+
+
     </Grid>
 </UserControl>

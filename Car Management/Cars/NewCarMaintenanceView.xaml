@@ -32,7 +32,7 @@
                 <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
             <Label HorizontalAlignment="Left" Content="Date: "/>
-            <TextBox Grid.Column="1" Text="{Binding NewRecord.ServiceDate, StringFormat='MM/dd/yyyy'}"/>
+            <TextBox Grid.Column="1" Text="{Binding NewRecord.ServiceDate, StringFormat='MM/dd/yyyy'}" IsReadOnly="{Binding IsReadyOnly}"/>
         </Grid>
 
         <Grid Grid.Row="2">

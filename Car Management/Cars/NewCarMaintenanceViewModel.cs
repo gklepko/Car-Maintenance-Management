@@ -20,7 +20,7 @@ namespace Car_Management.Cars
         public NewCarMaintenanceViewModel(MaintenanceRecord record, Action<MaintenanceRecord> onExit)
         {
             this.onExit = onExit;
-
+            
             NewRecord = record;
 
             SaveCommand = new RelayCommand(onSave);
