@@ -39,7 +39,7 @@
         <Label Grid.Row="0" Grid.Column="0" Content="Vehicles" FontWeight="Bold" HorizontalAlignment="Center"/>
         <Label Grid.Row="0" Grid.Column="1" Content="{Binding SelectedCar.DisplayName}" FontWeight="Bold" HorizontalAlignment="Center"/>
 
-        <Grid Grid.Row="1" ShowGridLines="True">
+        <Grid Grid.Row="1" ShowGridLines="False">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
